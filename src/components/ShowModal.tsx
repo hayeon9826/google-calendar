@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setOpenModal, setModalState } from "../store/modal";
-import React, { useState } from "react";
-import SideCalendar from "../components/SideCalendar";
-import { RadioGroup } from "@headlessui/react";
-import { weekDays, dayMinutes } from "../utils/date";
+import React from "react";
+import { weekDays } from "../utils/date";
+import { removeEvent } from "../store/event";
 import { RootState } from "../store";
-import { setStartTime, setEndTime } from "../store/calendar";
-import { addEvent } from "../store/event";
 import moment from "moment";
 import toast from "react-simple-toasts";
+import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
+import { BiTrash } from "react-icons/bi";
 import "moment/locale/ko";
 moment.locale("ko");
 
@@ -36,14 +35,26 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
         >
           <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-48">
             <div className="relative bg-white rounded-lg shadow-lg ">
-              <div className="flex justify-between items-center p-2 rounded-t ">
+              <div className="grid grid-cols-10  p-2 rounded-t ">
+                <button
+                  type="button"
+                  onClick={() => {
+                    dispatch(removeEvent({ date: date, id: id }));
+                    dispatch(setModalState(false));
+                    toast("일정이 삭제되었습니다.");
+                  }}
+                  className="col-start-9 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
+                  data-modal-toggle="medium-modal"
+                >
+                  <BiTrash className="text-base" />
+                </button>
                 <button
                   type="button"
                   onClick={() => {
                     dispatch(setOpenModal({ date: "", id: "" }));
                     dispatch(setModalState(false));
                   }}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
+                  className="col-start-10  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
                   data-modal-toggle="medium-modal"
                 >
                   <svg
@@ -59,6 +70,30 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
                     ></path>
                   </svg>
                 </button>
+              </div>
+              <div className="p-6">
+                <div className="grid grid-cols-10">
+                  <div className="col-span-1 text-center">
+                    <MdOutlineCheckBoxOutlineBlank
+                      style={{
+                        color:
+                          `${weekEvents[date][parseInt(id)]?.color}` || "blue",
+                        background:
+                          `${weekEvents[date][parseInt(id)]?.color}` || "blue",
+                      }}
+                    />
+                  </div>
+
+                  <h3 className="col-span-9 font-semibold text-xl">
+                    {weekEvents[date][parseInt(id)]?.title}
+                  </h3>
+                  <div className="col-start-2 col-span-9 text-gray-600 text-sm mt-2">
+                    {moment(date).format("M월 DD일")} (
+                    {weekDays[moment(date).days()] + "요일"}){" ⋅ "}
+                    {weekEvents[date][parseInt(id)]?.startAt?.text} ~{" "}
+                    {weekEvents[date][parseInt(id)]?.endAt?.text}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
