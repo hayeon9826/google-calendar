@@ -187,7 +187,7 @@ const Modal = ({ isShow = false }) => {
               {showDate && <SideCalendar className={"shadow-lg col-span-7"} />}
               {showStartTime && (
                 <div className="overflow-y-auto h-64 w-44 shadow-lg col-start-4">
-                  <ul role="list" className="divide-y divide-gray-200">
+                  <ul className="divide-y divide-gray-200">
                     {minutes.map((minute: minuteProps) => (
                       <li
                         key={`startTime-${minute.text}`}
@@ -219,7 +219,7 @@ const Modal = ({ isShow = false }) => {
               )}
               {showEndTime && (
                 <div className="overflow-y-auto h-64 w-44 shadow-lg col-start-7">
-                  <ul role="list" className="divide-y divide-gray-200">
+                  <ul className="divide-y divide-gray-200">
                     {minutes.map((minute: minuteProps) => (
                       <span key={`startTime-${minute.text}`}>
                         {moment({
@@ -275,7 +275,7 @@ const Modal = ({ isShow = false }) => {
                       className={({ active, checked }) =>
                         classNames(
                           color.selectedColor,
-                          selectedColor.name == color.name
+                          selectedColor.name === color.name
                             ? "ring ring-offset-1"
                             : "",
                           !active && checked ? "ring-2" : "",

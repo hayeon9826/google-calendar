@@ -1,11 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface modalProps {
-  showModal?: boolean;
-  date?: string;
-  id?: string;
-}
-
 const initialState = {
   showModal: false,
   date: "",

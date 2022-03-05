@@ -27,13 +27,13 @@ interface minuteProps {
 
 export const dayMinutes = () => {
   let hours: hourProps[] = dayHours();
-  let minutes: object[] = [];
+  let minutes: minuteProps[] = [];
   const min = ["00", "15", "30", "45"];
   hours.forEach((hour) => {
     min.forEach((val) => {
       minutes.push({
         hour: hour.hour,
-        minute: val,
+        minute: parseInt(val),
         text: hour.text + ":" + val,
       });
     });

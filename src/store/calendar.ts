@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { getMonthDates, getWeekDates } from "../utils/date";
 import moment from "moment";
 import "moment/locale/ko";

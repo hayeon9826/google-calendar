@@ -18,14 +18,6 @@ const MonthCalendar = () => {
 
   const dispatch = useDispatch();
 
-  interface eventProps {
-    title?: string;
-    startAt: { hour: number; minute: number; text: string };
-    endAt: { hour: number; minute: number; text: string };
-    height?: number;
-    color?: string;
-  }
-
   return (
     <div className="lg:flex lg:h-full lg:flex-col col-span-6">
       <div className="shadow-lg mt-3 ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
@@ -47,7 +39,7 @@ const MonthCalendar = () => {
                     dispatch(setModalState(true));
                   }}
                   className={classNames(
-                    moment(day).format("MM") == month
+                    moment(day).format("MM") === month
                       ? "bg-white"
                       : "bg-gray-50 text-gray-500",
                     "relative py-2 px-3"
@@ -64,7 +56,7 @@ const MonthCalendar = () => {
                   </time>
                   {weekEvents[day] && (
                     <>
-                      <ul role="list" className="-my-5  mt-2">
+                      <ul className="-my-5  mt-2">
                         {weekEvents[day]?.map((eventMemo, index) => (
                           <li
                             key={`${day}-${index}`}
@@ -115,14 +107,16 @@ const MonthCalendar = () => {
                 }
                 type="button"
                 className={classNames(
-                  moment(day).format("MM") == month ? "bg-white" : "bg-gray-50",
+                  moment(day).format("MM") === month
+                    ? "bg-white"
+                    : "bg-gray-50",
                   day === selectedDate && "font-semibold",
                   day === selectedDate && "text-white",
                   !(day === selectedDate) &&
-                    moment(day).format("MM") == month &&
+                    moment(day).format("MM") === month &&
                     "text-gray-900",
                   !(day === selectedDate) &&
-                    moment(day).format("MM") != month &&
+                    moment(day).format("MM") !== month &&
                     "text-gray-500",
                   "flex h-30 flex-col py-2 px-3 hover:bg-gray-100 focus:z-10"
                 )}

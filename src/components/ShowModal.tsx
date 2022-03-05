@@ -11,10 +11,6 @@ import { BiTrash } from "react-icons/bi";
 import "moment/locale/ko";
 moment.locale("ko");
 
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
 interface showModalProps {
   date?: string;
   id?: string | null;
