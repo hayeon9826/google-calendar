@@ -1,14 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./index";
-import { daysType } from "../interface";
 import { getMonthDates, getWeekDates } from "../utils/date";
 import moment from "moment";
-
+import "moment/locale/ko";
+moment.locale("ko");
 export interface currentDate {
   date: string;
   days: string[];
   month: string;
   weekDays: string[];
+}
+
+export interface timeProps {
+  text?: string;
+  hour?: number;
+  minute?: number;
 }
 
 const initialState = {
@@ -19,6 +24,16 @@ const initialState = {
   ),
   month: moment().format("MM"),
   weekDates: getWeekDates(moment().format("YYYY-MM-DD")),
+  startTime: {
+    text: moment().format("LT"),
+    hour: moment().hour(),
+    minute: moment().minute(),
+  } as timeProps,
+  endTime: {
+    text: moment().add(1, "hour").format("LT"),
+    hour: moment().add(1, "hour").hour(),
+    minute: moment().add(1, "hour").minute(),
+  } as timeProps,
 };
 
 export const calendarSlice = createSlice({
@@ -35,9 +50,23 @@ export const calendarSlice = createSlice({
       );
       state.weekDates = getWeekDates(selectDate);
     },
+    setStartTime: (state, action) => {
+      state.startTime = {
+        text: moment(action.payload).format("LT"),
+        hour: moment(action.payload).hour(),
+        minute: moment(action.payload).minute(),
+      };
+    },
+    setEndTime: (state, action) => {
+      state.endTime = {
+        text: moment(action.payload).format("LT"),
+        hour: moment(action.payload).hour(),
+        minute: moment(action.payload).minute(),
+      };
+    },
   },
 });
 
-export const { setDate } = calendarSlice.actions;
+export const { setDate, setStartTime, setEndTime } = calendarSlice.actions;
 
 export default calendarSlice.reducer;

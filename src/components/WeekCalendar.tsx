@@ -1,9 +1,10 @@
 import { useEffect, useRef } from "react";
-import { setDate } from "../store/calendar";
-import { weekDays, getMonthDates } from "../utils/date";
+import { setDate, setStartTime, setEndTime } from "../store/calendar";
+import { weekDays, dayHours } from "../utils/date";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import moment from "moment";
+import { setModalState, setOpenModal } from "../store/modal";
 
 const WeekCalendar = () => {
   const container = useRef<any>(null);
@@ -12,6 +13,20 @@ const WeekCalendar = () => {
 
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const weekDates = useSelector((state: RootState) => state.calendar.weekDates);
+  const dailyHours = dayHours();
+  const weekEvents = useSelector((state: RootState) => state.event);
+  interface hourProps {
+    text?: string;
+    hour?: number;
+  }
+
+  interface eventProps {
+    title?: string;
+    startAt: { hour: number; minute: number; text: string };
+    endAt: { hour: number; minute: number; text: string };
+    height?: number;
+    color?: string;
+  }
 
   useEffect(() => {
     // Set the container scroll position based on the current time.
@@ -35,7 +50,7 @@ const WeekCalendar = () => {
         >
           <div
             ref={containerNav}
-            className=" top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
+            className=" top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 "
           >
             <div className="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
               {weekDates &&
@@ -54,7 +69,7 @@ const WeekCalendar = () => {
                     <div
                       className={
                         selectedDate === date
-                          ? "mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
+                          ? "mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white text-xl"
                           : "mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-500 text-xl"
                       }
                     >
@@ -98,168 +113,118 @@ const WeekCalendar = () => {
             <div className="grid flex-auto grid-cols-1 grid-rows-1">
               {/* Horizontal lines */}
               <div
-                className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
+                className="col-start-1 col-end-2 row-start-1 grid"
                 style={{
-                  gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))",
+                  gridTemplateRows: "repeat(24, minmax(3.5rem, 1fr))",
                 }}
               >
                 <div ref={containerOffset} className="row-end-1 h-7"></div>
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 12시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시PM
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
-                <div>
-                  <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    오전 1시
-                  </div>
-                </div>
-                <div />
+                {dailyHours &&
+                  dailyHours.map((hour: hourProps) => (
+                    <div key={hour.text}>
+                      <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-500 h-14">
+                        {hour.text + "시"}
+                      </div>
+                    </div>
+                  ))}
               </div>
 
               {/* Vertical lines */}
-              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
-                <div className="col-start-1 row-span-full" />
-                <div className="col-start-2 row-span-full" />
-                <div className="col-start-3 row-span-full" />
-                <div className="col-start-4 row-span-full" />
-                <div className="col-start-5 row-span-full" />
-                <div className="col-start-6 row-span-full" />
-                <div className="col-start-7 row-span-full" />
-                <div className="col-start-8 row-span-full w-8" />
+              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 sm:grid sm:grid-cols-7">
+                {weekDates &&
+                  weekDates.map((week) => (
+                    <div key={week}>
+                      {dailyHours &&
+                        dailyHours.map(
+                          (dailyHour: hourProps, index: number) => (
+                            <div
+                              key={`dailyhour-${index}`}
+                              onClick={() => {
+                                dispatch(setModalState(true));
+                                dispatch(
+                                  setDate(moment(week).format("YYYY-MM-DD"))
+                                );
+                                dispatch(
+                                  setStartTime(
+                                    moment()
+                                      .set({
+                                        hour: dailyHour.hour,
+                                        minute: 0,
+                                      })
+                                      .toDate()
+                                      .toISOString()
+                                  )
+                                );
+                                dispatch(
+                                  setEndTime(
+                                    moment()
+                                      .set({
+                                        hour:
+                                          dailyHour?.hour &&
+                                          dailyHour?.hour + 1,
+                                        minute: 0,
+                                      })
+                                      .toDate()
+                                      .toISOString()
+                                  )
+                                );
+                              }}
+                              className={`col-start-${
+                                index + 1
+                              } h-14 text-center text-xs text-gray-500 border-gray-200 border-l border-t relative`}
+                            >
+                              {weekEvents[week] &&
+                                weekEvents[week]?.map(
+                                  (eventMemo: eventProps, index: number) =>
+                                    dailyHour.hour ===
+                                    eventMemo.startAt?.hour ? (
+                                      <>
+                                        <div
+                                          onClick={() =>
+                                            dispatch(
+                                              setOpenModal({
+                                                date: week,
+                                                id: `${index}`,
+                                              })
+                                            )
+                                          }
+                                          className={`${
+                                            eventMemo?.color
+                                              ? `bg-${eventMemo?.color}-300 hover:bg-${eventMemo?.color}-400`
+                                              : "bg-blue-300 hover:bg-blue-400 "
+                                          } z-20 group absolute inset-1 flex flex-col overflow-y-auto rounded-lg  p-2 text-xs leading-5  text-white`}
+                                          style={{
+                                            height: eventMemo?.height
+                                              ? `${
+                                                  (eventMemo?.height / 60) *
+                                                    100 >
+                                                  40
+                                                    ? (eventMemo?.height / 60) *
+                                                      100
+                                                    : 40
+                                                }%`
+                                              : "120%",
+                                            left: `${index * 10}px`,
+                                          }}
+                                        >
+                                          <div className="inline-block align-middle font-semibold">
+                                            {eventMemo.title}
+                                          </div>
+                                          <div className="inline-block align-middle font-semibold">
+                                            {eventMemo?.startAt?.text} ~{" "}
+                                            {eventMemo?.endAt?.text}
+                                          </div>
+                                        </div>
+                                      </>
+                                    ) : (
+                                      ""
+                                    )
+                                )}
+                            </div>
+                          )
+                        )}
+                    </div>
+                  ))}
               </div>
 
               {/* Events */}

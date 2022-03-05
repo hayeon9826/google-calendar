@@ -1,8 +1,93 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setModalState } from "../store/modal";
+import React, { useState } from "react";
+import SideCalendar from "../components/SideCalendar";
+import { RadioGroup } from "@headlessui/react";
+import { weekDays, dayMinutes } from "../utils/date";
+import { RootState } from "../store";
+import { setStartTime, setEndTime } from "../store/calendar";
+import { addEvent } from "../store/event";
+import moment from "moment";
+import toast from "react-simple-toasts";
+import "moment/locale/ko";
+moment.locale("ko");
+
+function classNames(...classes: any[]) {
+  return classes.filter(Boolean).join(" ");
+}
 
 const Modal = ({ isShow = false }) => {
+  const colors = [
+    { name: "blue", bgColor: "bg-blue-300", selectedColor: "ring-blue-300" },
+    { name: "red", bgColor: "bg-red-300", selectedColor: "ring-red-300" },
+    {
+      name: "purple",
+      bgColor: "bg-purple-300",
+      selectedColor: "ring-purple-300",
+    },
+
+    { name: "green", bgColor: "bg-green-300", selectedColor: "ring-green-300" },
+    {
+      name: "yellow",
+      bgColor: "bg-yellow-300",
+      selectedColor: "ring-yellow-300",
+    },
+  ];
+  const [showDate, setShowDate] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(colors[1]);
+  const [showStartTime, setShowStartTime] = useState(false);
+  const [showEndTime, setShowEndTime] = useState(false);
+  const [title, setTitle] = useState("");
   const dispatch = useDispatch();
+  const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const selectedStartTime = useSelector(
+    (state: RootState) => state.calendar.startTime
+  );
+  const selectedEndTime = useSelector(
+    (state: RootState) => state.calendar.endTime
+  );
+
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const event = {
+      date: selectedDate,
+      data: {
+        title: title || "(제목 없음)",
+        color: selectedColor.name,
+        startAt: {
+          hour: selectedStartTime.hour,
+          minute: selectedStartTime.minute,
+          text: selectedStartTime.text,
+        },
+        endAt: {
+          hour: selectedEndTime.hour,
+          minute: selectedEndTime.minute,
+          text: selectedEndTime.text,
+        },
+        height: moment
+          .duration(
+            moment({ h: selectedEndTime.hour, m: selectedEndTime.minute }).diff(
+              moment({ h: selectedStartTime.hour, m: selectedStartTime.minute })
+            )
+          )
+          .asMinutes(),
+      },
+    };
+    await dispatch(addEvent(event));
+    setTitle("");
+    dispatch(setStartTime({ hour: null, minute: null, text: null }));
+    dispatch(setEndTime({ hour: null, minute: null, text: null }));
+    dispatch(setModalState(false));
+    toast("일정이 저장되었습니다.");
+  };
+  interface minuteProps {
+    text?: string;
+    hour?: number;
+    minute?: number;
+  }
+  const minutes = dayMinutes();
+  moment.locale();
+
   return (
     <div
       className={`${
@@ -15,7 +100,14 @@ const Modal = ({ isShow = false }) => {
           <div className="flex justify-between items-center p-2 rounded-t ">
             <button
               type="button"
-              onClick={() => dispatch(setModalState(false))}
+              onClick={() => {
+                dispatch(setModalState(false));
+                setShowDate(false);
+                setShowEndTime(false);
+                setShowStartTime(false);
+                setSelectedColor(colors[1]);
+                setTitle("");
+              }}
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
               data-modal-toggle="medium-modal"
             >
@@ -33,36 +125,205 @@ const Modal = ({ isShow = false }) => {
               </svg>
             </button>
           </div>
-          <div className="p-6">
+          <form className="p-6" onSubmit={submitHandler}>
             <div>
               <div className="mt-1 border-b-2 ">
                 <input
                   type="text"
                   name="name"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  onClick={() => setShowDate(false)}
                   id="name"
-                  className="block w-full border-0 border-transparent text-2xl border-b-2 border-blue-600"
+                  className="block w-full border-0 border-transparent text-2xl  border-blue-600 focus:outline-none focus:border-b-2"
                   placeholder="제목 추가"
                 />
               </div>
             </div>
-          </div>
-          <div className="flex items-center p-6 space-x-2 rounded-b flex-row-reverse">
-            <button
-              data-modal-toggle="medium-modal"
-              type="button"
-              className="text-white ml-2 bg-blue-700 hover:bg-blue-800   font-medium rounded-md text-sm px-5 py-2.5 text-center"
-            >
-              저장
-            </button>
-            <button
-              data-modal-toggle="medium-modal"
-              type="button"
-              onClick={() => dispatch(setModalState(false))}
-              className="text-gray-700 bg-white hover:bg-gray-100 rounded-md text-sm font-medium px-5 py-2.5   "
-            >
-              취소
-            </button>
-          </div>
+            <div className="grid grid-cols-10 mt-4">
+              <input
+                type="text"
+                name="date"
+                onClick={() => {
+                  setShowDate(!showDate);
+                  setShowStartTime(false);
+                  setShowEndTime(false);
+                }}
+                id="date"
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 z-60 col-span-3"
+                placeholder={
+                  moment(selectedDate).format("M월 DD일") +
+                  ` (${weekDays[moment(selectedDate).day()]}요일)`
+                }
+              />
+              <input
+                type="text"
+                name="startTime"
+                id="startTime"
+                onClick={() => {
+                  setShowDate(false);
+                  setShowStartTime(!showStartTime);
+                  setShowEndTime(false);
+                }}
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3"
+                placeholder={selectedStartTime.text}
+              />
+              <div className="text-center">-</div>
+              <input
+                type="text"
+                name="endTime"
+                id="endTime"
+                onClick={() => {
+                  setShowDate(false);
+                  setShowEndTime(!showEndTime);
+                  setShowStartTime(false);
+                }}
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3"
+                placeholder={selectedEndTime.text}
+              />
+            </div>
+
+            <div className="grid grid-cols-10 mt-2">
+              {showDate && <SideCalendar className={"shadow-lg col-span-7"} />}
+              {showStartTime && (
+                <div className="overflow-y-auto h-64 w-44 shadow-lg col-start-4">
+                  <ul role="list" className="divide-y divide-gray-200">
+                    {minutes.map((minute: minuteProps) => (
+                      <li
+                        key={`startTime-${minute.text}`}
+                        className="py-4 flex hover:bg-gray-100"
+                        onClick={() => {
+                          dispatch(
+                            setStartTime(
+                              moment()
+                                .set({
+                                  hour: minute.hour,
+                                  minute: minute.minute,
+                                })
+                                .toDate()
+                                .toISOString()
+                            )
+                          );
+                          setShowStartTime(false);
+                        }}
+                      >
+                        <div className="ml-3">
+                          <p className="text-sm font-medium text-gray-900">
+                            {minute.text}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {showEndTime && (
+                <div className="overflow-y-auto h-64 w-44 shadow-lg col-start-7">
+                  <ul role="list" className="divide-y divide-gray-200">
+                    {minutes.map((minute: minuteProps) => (
+                      <span key={`startTime-${minute.text}`}>
+                        {moment({
+                          h: selectedStartTime.hour,
+                          s: selectedStartTime.minute,
+                        }).isBefore(
+                          moment({
+                            h: minute.hour,
+                            s: minute.minute,
+                          })
+                        ) && (
+                          <li
+                            className="py-4 flex hover:bg-gray-100"
+                            onClick={() => {
+                              dispatch(
+                                setEndTime(
+                                  moment()
+                                    .set({
+                                      hour: minute.hour,
+                                      minute: minute.minute,
+                                    })
+                                    .toDate()
+                                    .toISOString()
+                                )
+                              );
+                              setShowEndTime(false);
+                            }}
+                          >
+                            <div className="ml-3">
+                              <p className="text-sm font-medium text-gray-900">
+                                {minute.text}
+                              </p>
+                            </div>
+                          </li>
+                        )}
+                      </span>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+            <div className="mt-2">
+              <RadioGroup value={selectedColor} onChange={setSelectedColor}>
+                <RadioGroup.Label className="block text-sm font-medium text-gray-400">
+                  색상 선택
+                </RadioGroup.Label>
+                <div className="mt-4 flex items-center space-x-3">
+                  {colors.map((color, index) => (
+                    <RadioGroup.Option
+                      key={color.name}
+                      value={color}
+                      onClick={() => setSelectedColor(colors[index])}
+                      className={({ active, checked }) =>
+                        classNames(
+                          color.selectedColor,
+                          selectedColor.name == color.name
+                            ? "ring ring-offset-1"
+                            : "",
+                          !active && checked ? "ring-2" : "",
+                          "-m-0.5 relative p-0.5 rounded-full flex items-center justify-center cursor-pointer focus:outline-none"
+                        )
+                      }
+                    >
+                      <RadioGroup.Label as="p" className="sr-only">
+                        {color.name}
+                      </RadioGroup.Label>
+                      <span
+                        aria-hidden="true"
+                        className={classNames(
+                          color.bgColor,
+                          "h-8 w-8 border border-black border-opacity-10 rounded-full"
+                        )}
+                      />
+                    </RadioGroup.Option>
+                  ))}
+                </div>
+              </RadioGroup>
+            </div>
+
+            <div className="flex items-center p-6 space-x-2 rounded-b flex-row-reverse">
+              <button
+                data-modal-toggle="medium-modal"
+                type="submit"
+                className="text-white ml-2 bg-blue-700 hover:bg-blue-800   font-medium rounded-md text-sm px-5 py-2.5 text-center"
+              >
+                저장
+              </button>
+              <button
+                data-modal-toggle="medium-modal"
+                type="button"
+                onClick={() => {
+                  dispatch(setModalState(false));
+                  setShowDate(false);
+                  setShowEndTime(false);
+                  setShowStartTime(false);
+                  setTitle("");
+                  setSelectedColor(colors[1]);
+                }}
+                className="text-gray-700 bg-white hover:bg-gray-100 rounded-md text-sm font-medium px-5 py-2.5   "
+              >
+                취소
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

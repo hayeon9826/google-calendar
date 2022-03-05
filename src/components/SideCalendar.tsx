@@ -11,7 +11,15 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const SideCalendar = () => {
+interface SideCalendarProps {
+  isMain?: boolean;
+  className?: string;
+}
+
+const SideCalendar = ({
+  isMain = false,
+  className = "",
+}: SideCalendarProps) => {
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const days = useSelector((state: RootState) => state.calendar.days);
   const month = useSelector((state: RootState) => state.calendar.month);
@@ -20,15 +28,18 @@ const SideCalendar = () => {
 
   return (
     <>
-      <button
-        type="button"
-        onClick={() => dispatch(setModalState(true))}
-        data-modal-toggle="medium-modal"
-        className="inline-flex items-center ml-4 mt-2 px-8 py-2 border border-gray-300 shadow-lg text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
-      >
-        만들기
-      </button>
-      <div className="md:p-4 lg:p-6 mt-2">
+      {isMain && (
+        <button
+          type="button"
+          onClick={() => dispatch(setModalState(true))}
+          data-modal-toggle="medium-modal"
+          className="inline-flex items-center ml-4 mt-2 px-8 py-2 border border-gray-300 shadow-lg text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+        >
+          만들기
+        </button>
+      )}
+
+      <div className={`md:p-4 lg:p-6 mt-2 ${className}`}>
         <div className="flex items-center">
           <h2 className="ml-2 flex-auto font-semibold text-gray-600">
             {moment(selectedDate).format("YYYY년 MM월")}

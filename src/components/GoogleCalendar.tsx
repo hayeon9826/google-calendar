@@ -4,6 +4,7 @@ import MonthCalendar from "../components/MonthCalendar";
 import SideCalendar from "../components/SideCalendar";
 import { useState } from "react";
 import Modal from "./Modal";
+import ShowModal from "./ShowModal";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
@@ -11,6 +12,9 @@ const GoogleCalendar = () => {
   const [sideOpen, setSideOpen] = useState(true);
   const [weekView, setWeekView] = useState(true);
   const showModal = useSelector((state: RootState) => state.modal.showModal);
+  const openModal = useSelector((state: RootState) => state.modal);
+
+  console.log(openModal);
 
   return (
     <>
@@ -24,10 +28,11 @@ const GoogleCalendar = () => {
         className={`md:grid ${sideOpen ? "md:grid-cols-7" : "md:grid-cols-6"} `}
       >
         <div className={sideOpen ? "block" : "hidden"}>
-          <SideCalendar />
+          <SideCalendar isMain={true} />
         </div>
         {weekView ? <WeekCalendar /> : <MonthCalendar />}
-        <Modal isShow={showModal} />
+        <Modal isShow={showModal && !openModal?.date} />
+        <ShowModal date={openModal?.date} id={openModal?.id} />
       </div>
     </>
   );

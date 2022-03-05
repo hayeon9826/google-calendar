@@ -41,7 +41,9 @@ const Header = ({
           onClick={() => setSideOpen(!sideOpen)}
         />
         <FcGoogle className="text-xl" />
-        <div className="text-xl font-normal text-gray-600 ml-2">캘린더</div>
+        <div className="hidden md:block lg:block text-xl font-normal text-gray-600 ml-2">
+          캘린더
+        </div>
         <button
           onClick={() =>
             dispatch(setDate(moment(new Date()).format("YYYY-MM-DD")))
@@ -62,7 +64,13 @@ const Header = ({
             onClick={() =>
               dispatch(
                 setDate(
-                  moment(selectedDate).subtract(1, "month").format("YYYY-MM-DD")
+                  weekView
+                    ? moment(selectedDate)
+                        .subtract(1, "week")
+                        .format("YYYY-MM-DD")
+                    : moment(selectedDate)
+                        .subtract(1, "month")
+                        .format("YYYY-MM-DD")
                 )
               )
             }
@@ -79,7 +87,9 @@ const Header = ({
             onClick={() =>
               dispatch(
                 setDate(
-                  moment(selectedDate).add(1, "month").format("YYYY-MM-DD")
+                  weekView
+                    ? moment(selectedDate).add(1, "week").format("YYYY-MM-DD")
+                    : moment(selectedDate).add(1, "month").format("YYYY-MM-DD")
                 )
               )
             }
