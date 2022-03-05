@@ -8,21 +8,46 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import { FcGoogle } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
+import { Dispatch, SetStateAction } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+import { RootState } from "../store";
+import { setDate } from "../store/calendar";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Header = () => {
+interface HeaderProps {
+  sideOpen: boolean;
+  weekView: boolean;
+  setSideOpen: Dispatch<SetStateAction<boolean>>;
+  setWeekView: Dispatch<SetStateAction<boolean>>;
+}
+
+const Header = ({
+  sideOpen = true,
+  setSideOpen,
+  weekView = true,
+  setWeekView,
+}: HeaderProps) => {
+  const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const dispatch = useDispatch();
   return (
     <header className="relative z-20 flex flex-none items-center justify-between border-b border-gray-200 py-4 px-6">
       <div className="flex items-center">
-        <HiMenu className="text-xl mr-4 text-gray-600 cursor-pointer" />
+        <HiMenu
+          className="text-xl mr-4 text-gray-600 cursor-pointer hover:text-gray-300 rounded-full"
+          onClick={() => setSideOpen(!sideOpen)}
+        />
         <FcGoogle className="text-xl" />
         <div className="text-xl font-normal text-gray-600 ml-2">캘린더</div>
         <button
+          onClick={() =>
+            dispatch(setDate(moment(new Date()).format("YYYY-MM-DD")))
+          }
           type="button"
-          className="hidden md:block lg:block ml-16 items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="hidden md:block lg:block ml-16 items-center px-4 py-2 border border-gray-300 shadow-lg text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none "
         >
           오늘
         </button>
@@ -31,17 +56,37 @@ const Header = () => {
           className="ml-4 -my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
         >
           <span className="sr-only">Previous month</span>
-          <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+          <ChevronLeftIcon
+            className="h-5 w-5"
+            aria-hidden="true"
+            onClick={() =>
+              dispatch(
+                setDate(
+                  moment(selectedDate).subtract(1, "month").format("YYYY-MM-DD")
+                )
+              )
+            }
+          />
         </button>
         <button
           type="button"
           className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
         >
           <span className="sr-only">Next month</span>
-          <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+          <ChevronRightIcon
+            className="h-5 w-5"
+            aria-hidden="true"
+            onClick={() =>
+              dispatch(
+                setDate(
+                  moment(selectedDate).add(1, "month").format("YYYY-MM-DD")
+                )
+              )
+            }
+          />
         </button>
         <h2 className="ml-6 flex-auto text-lg font-semibold text-gray-600">
-          2022년 3월
+          {moment(selectedDate).format("YYYY년 MM월")}
         </h2>
       </div>
       <div className="flex items-center">
@@ -51,7 +96,7 @@ const Header = () => {
               type="button"
               className="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
             >
-              주
+              {weekView ? "주" : "월"}
               <ChevronDownIcon
                 className="ml-2 h-5 w-5 text-gray-400"
                 aria-hidden="true"
@@ -73,6 +118,7 @@ const Header = () => {
                     {({ active }) => (
                       <a
                         href="#"
+                        onClick={() => setWeekView(true)}
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -88,6 +134,7 @@ const Header = () => {
                     {({ active }) => (
                       <a
                         href="#"
+                        onClick={() => setWeekView(false)}
                         className={classNames(
                           active
                             ? "bg-gray-100 text-gray-900"
@@ -126,6 +173,11 @@ const Header = () => {
                   {({ active }) => (
                     <a
                       href="#"
+                      onClick={() =>
+                        dispatch(
+                          setDate(moment(new Date()).format("YYYY-MM-DD"))
+                        )
+                      }
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
@@ -141,6 +193,7 @@ const Header = () => {
                   {({ active }) => (
                     <a
                       href="#"
+                      onClick={() => setWeekView(true)}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
@@ -154,6 +207,7 @@ const Header = () => {
                   {({ active }) => (
                     <a
                       href="#"
+                      onClick={() => setWeekView(false)}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"

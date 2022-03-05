@@ -1,9 +1,17 @@
 import { useEffect, useRef } from "react";
+import { setDate } from "../store/calendar";
+import { weekDays, getMonthDates } from "../utils/date";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import moment from "moment";
 
 const WeekCalendar = () => {
   const container = useRef<any>(null);
   const containerNav = useRef<any>(null);
   const containerOffset = useRef<any>(null);
+
+  const selectedDate = useSelector((state: RootState) => state.calendar.date);
+  const weekDates = useSelector((state: RootState) => state.calendar.weekDates);
 
   useEffect(() => {
     // Set the container scroll position based on the current time.
@@ -15,6 +23,8 @@ const WeekCalendar = () => {
         currentMinute) /
       1440;
   }, []);
+
+  const dispatch = useDispatch();
 
   return (
     <div className="flex flex-col col-span-6">
@@ -28,129 +38,59 @@ const WeekCalendar = () => {
             className=" top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
           >
             <div className="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                <div className="text-xs text-gray-500">일</div>{" "}
-                <div className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-500 text-xl">
-                  10
-                </div>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                T{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  11
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                W{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white">
-                  12
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                T{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  13
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                F{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  14
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                S{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  15
-                </span>
-              </button>
-              <button
-                type="button"
-                className="flex flex-col items-center pt-2 pb-3"
-              >
-                S{" "}
-                <span className="mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-900">
-                  16
-                </span>
-              </button>
+              {weekDates &&
+                weekDates.map((date, index) => (
+                  <button
+                    onClick={() =>
+                      dispatch(setDate(moment(date).format("YYYY-MM-DD")))
+                    }
+                    key={`week-${date}`}
+                    type="button"
+                    className="flex flex-col items-center pt-2 pb-3"
+                  >
+                    <div className="text-xs text-gray-500">
+                      {weekDays[index]}
+                    </div>{" "}
+                    <div
+                      className={
+                        selectedDate === date
+                          ? "mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
+                          : "mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-500 text-xl"
+                      }
+                    >
+                      {moment(date).format("DD")}
+                    </div>
+                  </button>
+                ))}
             </div>
 
             <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">일</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    10
+              {weekDates &&
+                weekDates.map((date, index) => (
+                  <div
+                    onClick={() =>
+                      dispatch(setDate(moment(date).format("YYYY-MM-DD")))
+                    }
+                    className="flex items-center justify-center py-3"
+                    key={`week-${index}`}
+                  >
+                    <span>
+                      <div className="text-center text-xs text-gray-500">
+                        {weekDays[index]}
+                      </div>
+                      <div
+                        className={
+                          selectedDate === date
+                            ? "flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-2xl"
+                            : "items-center justify-center font-semibold text-gray-500 text-2xl"
+                        }
+                      >
+                        {moment(date).format("DD")}
+                      </div>
+                    </span>
                   </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">월</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    11
-                  </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">화</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    12
-                  </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">수</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    13
-                  </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">목</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    14
-                  </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-blue-600">금</div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-2xl">
-                    15
-                  </div>
-                </span>
-              </div>
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  <div className="text-center text-xs text-gray-500">토</div>
-                  <div className="items-center justify-center font-semibold text-gray-500 text-2xl">
-                    16
-                  </div>
-                </span>
-              </div>
+                ))}
             </div>
           </div>
           <div className="flex h-screen flex-auto overflow-scroll">
@@ -323,7 +263,7 @@ const WeekCalendar = () => {
               </div>
 
               {/* Events */}
-              <ol
+              {/* <ol
                 className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-7 sm:pr-8"
                 style={{
                   gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
@@ -377,7 +317,7 @@ const WeekCalendar = () => {
                     </p>
                   </a>
                 </li>
-              </ol>
+              </ol> */}
             </div>
           </div>
         </div>
