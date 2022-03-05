@@ -1,7 +1,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
 import moment from "moment";
-import { weekDays, getMonthDates } from "../utils/date";
+import { weekDays } from "../utils/date";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { setDate } from "../store/calendar";

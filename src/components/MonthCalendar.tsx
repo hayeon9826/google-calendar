@@ -4,7 +4,7 @@ import { setDate } from "../store/calendar";
 import { weekDays } from "../utils/date";
 import moment from "moment";
 import { VscCircleFilled } from "react-icons/vsc";
-import { setModalState } from "../store/modal";
+import { setModalState, setOpenModal } from "../store/modal";
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(" ");
@@ -66,15 +66,24 @@ const MonthCalendar = () => {
                     <>
                       <ul role="list" className="-my-5  mt-2">
                         {weekEvents[day]?.map((eventMemo, index) => (
-                          <li key={`${day}-${index}`} className="py-1">
+                          <li
+                            key={`${day}-${index}`}
+                            className="py-1"
+                            onClick={() =>
+                              dispatch(
+                                setOpenModal({
+                                  date: day,
+                                  id: `${index}`,
+                                })
+                              )
+                            }
+                          >
                             <div className="relative">
                               <div className="text-sm font-normal w-full text-gray-800 hover:bg-gray-100 p-1 rounded-md">
                                 <a href="#" className="flex">
                                   <VscCircleFilled
                                     style={{
-                                      color:
-                                        `light${eventMemo?.color}` ||
-                                        "lightblue",
+                                      color: `${eventMemo?.color}` || "blue",
                                     }}
                                     className={`${
                                       eventMemo?.color

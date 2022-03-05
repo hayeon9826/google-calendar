@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import moment from "moment";
 
 interface EventType {
   title?: string;
@@ -39,7 +38,7 @@ export const eventSlice = createSlice({
       ];
     },
     removeEvent: (state, action) => {
-      delete state[action.payload.date][action.payload.index];
+      state[action.payload.date].splice(parseInt(action.payload.id), 1);
     },
   },
 });

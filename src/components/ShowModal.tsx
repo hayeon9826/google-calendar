@@ -40,6 +40,7 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
                   type="button"
                   onClick={() => {
                     dispatch(removeEvent({ date: date, id: id }));
+                    dispatch(setOpenModal({ date: "", id: "" }));
                     dispatch(setModalState(false));
                     toast("일정이 삭제되었습니다.");
                   }}
