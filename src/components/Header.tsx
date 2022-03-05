@@ -127,7 +127,7 @@ const Header = ({
                   <Menu.Item>
                     {({ active }) => (
                       <a
-                        href="#"
+                        href="#!"
                         onClick={() => setWeekView(true)}
                         className={classNames(
                           active
@@ -143,7 +143,7 @@ const Header = ({
                   <Menu.Item>
                     {({ active }) => (
                       <a
-                        href="#"
+                        href="#!"
                         onClick={() => setWeekView(false)}
                         className={classNames(
                           active
@@ -182,7 +182,7 @@ const Header = ({
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="#"
+                      href="#!"
                       onClick={() =>
                         dispatch(
                           setDate(moment(new Date()).format("YYYY-MM-DD"))
@@ -202,7 +202,7 @@ const Header = ({
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="#"
+                      href="#!"
                       onClick={() => setWeekView(true)}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
@@ -216,7 +216,7 @@ const Header = ({
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="#"
+                      href="#!"
                       onClick={() => setWeekView(false)}
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
