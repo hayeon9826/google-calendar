@@ -2,19 +2,6 @@ import moment from "moment";
 
 export const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
 
-export const dayHours = () => {
-  let hours: object[] = [];
-  for (let i = 0; i < 24; i++) {
-    if (i < 12) {
-      hours.push({ text: `오전 ${i}`, hour: i });
-    } else {
-      hours.push({ text: `오후 ${i === 12 ? 12 : i - 12}`, hour: i });
-    }
-  }
-
-  return hours;
-};
-
 interface hourProps {
   text?: string;
   hour?: number;
@@ -24,6 +11,18 @@ interface minuteProps {
   hour?: number;
   minute?: number;
 }
+
+export const dayHours = () => {
+  let hours: object[] = [];
+  for (let i = 0; i < 24; i++) {
+    if (i < 12) {
+      hours.push({ text: `오전 ${i}`, hour: i });
+    } else {
+      hours.push({ text: `오후 ${i === 12 ? 12 : i - 12}`, hour: i });
+    }
+  }
+  return hours;
+};
 
 export const dayMinutes = () => {
   let hours: hourProps[] = dayHours();
@@ -38,7 +37,6 @@ export const dayMinutes = () => {
       });
     });
   });
-
   return minutes;
 };
 
@@ -46,7 +44,6 @@ export const getMonthDates = (startDate: string, endDate: string) => {
   let prevDate = getPrevDaysInMonth(startDate);
   let dates = getDaysInMonth(startDate);
   let nextDate = getNextDaysInMonth(endDate);
-
   return prevDate.concat(dates).concat(nextDate);
 };
 
@@ -58,7 +55,6 @@ export const getWeekDates = (date: string) => {
     let current = moment(weekStart).add(i, "day");
     arrDays.push(current.format("YYYY-MM-DD"));
   }
-
   return arrDays;
 };
 
@@ -74,7 +70,6 @@ export const getDaysInMonth = function (startDate: string) {
     daysInMonth--;
     i++;
   }
-
   return arrDays;
 };
 
@@ -87,7 +82,6 @@ export const getPrevDaysInMonth = function (startDate: string) {
     arrDays.push(current.format("YYYY-MM-DD"));
     lastMonthCount--;
   }
-
   return arrDays;
 };
 
@@ -100,6 +94,5 @@ export const getNextDaysInMonth = function (endDate: string) {
     arrDays.push(current.format("YYYY-MM-DD"));
     nextMonthCount--;
   }
-
   return arrDays.reverse();
 };

@@ -16,7 +16,6 @@ const WeekCalendar = () => {
   const dailyHours = dayHours();
   const weekEvents = useSelector((state: RootState) => state.event);
 
-  console.log(weekEvents);
   interface hourProps {
     text?: string;
     hour?: number;

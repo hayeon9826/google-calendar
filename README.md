@@ -1,44 +1,43 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+## 프로젝트 설명
 
-## Available Scripts
+- 구글 캘린더 클론 프로젝트
+- 실서버 주소: https://google-calendar-pearl.vercel.app/
 
-In the project directory, you can run:
+## 사용 스택
 
-### `npm start`
+- React (create-react-app)
+- Redux toolkit
+- Tailwind css
+- Typescript
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 로컬 실행
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+클론 후, 아래 명령어 입력. `localhost:3000` 접속
 
-### `npm test`
+```javscript
+yarn install
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 구현된 기능
 
-### `npm run build`
+1. Redux-Toolkit를 이용한 상태 관리
+2. 주별/월별 캘린더 보기, 선택한 날짜로 화면 변경
+3. 왼쪽 상단 date picker
+4. 이벤트 등록 및 삭제 기능 (제목, 날짜, 시간, 색상)
+5. 등록된 이벤트 확인 (주별/월별)
+6. 그 외: 오늘 버튼 구현, 상단 바 주/월 변경 버튼 구현, 이벤트 만들기 버튼 구현, 상단 좌측 사이드바 접기/펼치기 구현
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 사진 첨부
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892524-78d4a595-6f80-45fc-8586-2feb3976887c.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892546-36c96ef2-8fec-43b2-8852-a51c1872f8df.png)
 
-### `npm run eject`
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892556-29b432e3-ce45-4279-818c-83a201a91a3c.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892570-347cb4be-9ec2-498a-bea5-8ddc0f31b6e8.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892585-11a5c341-3bda-420b-971d-2a2218dc31e9.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+![google calendar clone](https://user-images.githubusercontent.com/72732446/156892596-af30011e-b15d-4b92-bae5-f3216daedf72.png)

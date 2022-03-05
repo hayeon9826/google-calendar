@@ -14,8 +14,6 @@ const GoogleCalendar = () => {
   const showModal = useSelector((state: RootState) => state.modal.showModal);
   const openModal = useSelector((state: RootState) => state.modal);
 
-  console.log(openModal);
-
   return (
     <>
       <Header
