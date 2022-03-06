@@ -8,13 +8,9 @@ import moment from "moment";
 import toast from "react-simple-toasts";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { BiTrash } from "react-icons/bi";
+import { showModalProps } from "../interface";
 import "moment/locale/ko";
 moment.locale("ko");
-
-interface showModalProps {
-  date?: string;
-  id?: string | null;
-}
 
 const ShowModal = ({ date = "", id = "" }: showModalProps) => {
   const dispatch = useDispatch();
@@ -26,11 +22,11 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
     <>
       {date && id && weekEvents[date][parseInt(id)] && (
         <div
-          className={`overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full`}
+          className={`overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full h-screen`}
           id="medium-modal"
         >
           <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-48">
-            <div className="relative bg-white rounded-lg shadow-lg ">
+            <div className="relative bg-white rounded-lg shadow-lg  border border-gray-200">
               <div className="grid grid-cols-10  p-2 rounded-t ">
                 <button
                   type="button"

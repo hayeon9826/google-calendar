@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import moment from "moment";
 import { setModalState, setOpenModal } from "../store/modal";
+import { EventType, hourProps } from "../interface";
 
 const WeekCalendar = () => {
   const container = useRef<any>(null);
@@ -15,19 +16,6 @@ const WeekCalendar = () => {
   const weekDates = useSelector((state: RootState) => state.calendar.weekDates);
   const dailyHours = dayHours();
   const weekEvents = useSelector((state: RootState) => state.event);
-
-  interface hourProps {
-    text?: string;
-    hour?: number;
-  }
-
-  interface eventProps {
-    title?: string;
-    startAt: { hour: number; minute: number; text: string };
-    endAt: { hour: number; minute: number; text: string };
-    height?: number;
-    color?: string;
-  }
 
   useEffect(() => {
     // Set the container scroll position based on the current time.
@@ -54,7 +42,7 @@ const WeekCalendar = () => {
             className=" top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 "
           >
             <div className="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
-              <div className="col-end-1 w-14" />
+              <div className="col-end-1 w-14 " />
               {weekDates &&
                 weekDates.map((date, index) => (
                   <button
@@ -71,7 +59,7 @@ const WeekCalendar = () => {
                     <div
                       className={
                         selectedDate === date
-                          ? "mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white text-lg"
+                          ? "mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-lg"
                           : "mt-1 flex h-8 w-8 items-center justify-center font-semibold text-gray-500 text-lg"
                       }
                     >
@@ -99,8 +87,8 @@ const WeekCalendar = () => {
                       <div
                         className={
                           selectedDate === date
-                            ? "flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-2xl"
-                            : "items-center justify-center font-semibold text-gray-500 text-2xl"
+                            ? "flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-xl"
+                            : "items-center justify-center font-semibold text-gray-500 text-xl"
                         }
                       >
                         {moment(date).format("DD")}
@@ -111,11 +99,11 @@ const WeekCalendar = () => {
             </div>
           </div>
           <div className="flex h-screen flex-auto overflow-scroll">
-            <div className="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
+            <div className="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100  " />
             <div className="grid flex-auto grid-cols-1 grid-rows-1">
               {/* Horizontal lines */}
               <div
-                className="col-start-1 col-end-2 row-start-1 grid"
+                className="col-start-1 col-end-2 row-start-1 grid "
                 style={{
                   gridTemplateRows: "repeat(24, minmax(3.5rem, 1fr))",
                 }}
@@ -132,7 +120,7 @@ const WeekCalendar = () => {
               </div>
 
               {/* Vertical lines */}
-              <div className="col-start-1 col-end-2 row-start-1 grid-cols-7 grid-rows-1 sm:grid sm:grid-cols-7">
+              <div className="col-start-1 col-end-2 row-start-1 grid grid-cols-7 grid-rows-1">
                 {weekDates &&
                   weekDates.map((week) => (
                     <div key={week}>
@@ -177,7 +165,7 @@ const WeekCalendar = () => {
                             >
                               {weekEvents[week] &&
                                 weekEvents[week]?.map(
-                                  (eventMemo: eventProps, index: number) =>
+                                  (eventMemo: EventType, index: number) =>
                                     dailyHour.hour ===
                                     eventMemo.startAt?.hour ? (
                                       <div
@@ -205,7 +193,7 @@ const WeekCalendar = () => {
                                                   : 40
                                               }%`
                                             : "120%",
-                                          left: `${index * 10}px`,
+                                          // left: `${index * 8}px`,
                                         }}
                                       >
                                         <div className="inline-block align-middle font-semibold">

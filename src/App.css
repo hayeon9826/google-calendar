@@ -37,3 +37,9 @@
     transform: translateY(0px);
   }
 }
+
+@media screen and (max-width: 600px) {
+  .mobile-hide {
+    display: none;
+  }
+}

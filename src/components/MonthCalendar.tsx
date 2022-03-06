@@ -1,14 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { setDate } from "../store/calendar";
+import React from "react";
 import { weekDays } from "../utils/date";
 import moment from "moment";
 import { VscCircleFilled } from "react-icons/vsc";
 import { setModalState, setOpenModal } from "../store/modal";
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
+import { classNames } from "../utils/index";
 
 const MonthCalendar = () => {
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
@@ -28,7 +26,7 @@ const MonthCalendar = () => {
             </div>
           ))}
         </div>
-        <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto h-screen overflow-scroll">
+        <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto lg:h-screen md:h-screen overflow-scroll">
           <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
             {days &&
               days.map((day) => (
@@ -102,9 +100,10 @@ const MonthCalendar = () => {
             {days.map((day) => (
               <button
                 key={day}
-                onClick={() =>
-                  dispatch(setDate(moment(day).format("YYYY-MM-DD")))
-                }
+                onClick={() => {
+                  dispatch(setDate(moment(day).format("YYYY-MM-DD")));
+                  dispatch(setModalState(true));
+                }}
                 type="button"
                 className={classNames(
                   moment(day).format("MM") === month
@@ -133,25 +132,42 @@ const MonthCalendar = () => {
                   {moment(day).format("D")}
                 </time>
                 {weekEvents[day] && (
-                  <div className="-mx-0.5 mt-auto flex flex-wrap-reverse absolute">
+                  <ul className="grid mx-auto">
                     {weekEvents[day]?.map((eventMemo, index) => (
-                      <li key={`${day}-${index}`} className="py-5">
-                        <div className="relative focus-within:ring-2">
-                          <div className="text-sm font-normal w-full text-gray-800 hover:bg-gray-100 rounded-md">
-                            <a href="#!" className="flex">
-                              <VscCircleFilled
-                                className={`${
-                                  eventMemo?.color
-                                    ? `text-${eventMemo?.color}-300 hover:text-${eventMemo?.color}-400`
-                                    : "text-blue-300 hover:text-blue-400 "
-                                } text-xl`}
-                              />{" "}
-                            </a>
-                          </div>
-                        </div>
-                      </li>
+                      <React.Fragment key={`${day}-${index}`}>
+                        {/* 모바일은 최신 3개만 띄우기 */}
+                        {index < 3 && (
+                          <li
+                            onClick={() =>
+                              dispatch(
+                                setOpenModal({
+                                  date: day,
+                                  id: `${index}`,
+                                })
+                              )
+                            }
+                          >
+                            <div className="relative focus-within:ring-2">
+                              <div className="text-sm font-normal w-full text-gray-800 hover:bg-gray-100 rounded-md">
+                                <a href="#!" className="flex">
+                                  <VscCircleFilled
+                                    style={{
+                                      color: eventMemo?.color || "blue",
+                                    }}
+                                    className={`${
+                                      eventMemo?.color
+                                        ? `text-${eventMemo?.color}-300 hover:text-${eventMemo?.color}-400`
+                                        : "text-blue-300 hover:text-blue-400 "
+                                    } text-xl`}
+                                  />{" "}
+                                </a>
+                              </div>
+                            </div>
+                          </li>
+                        )}
+                      </React.Fragment>
                     ))}
-                  </div>
+                  </ul>
                 )}
               </button>
             ))}

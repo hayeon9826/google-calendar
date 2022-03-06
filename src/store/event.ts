@@ -1,13 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-
-interface EventType {
-  title?: string;
-  startAt: { hour: number; minute: number; text: string };
-  endAt: { hour: number; minute: number; text: string };
-  height: number;
-  color: string;
-}
+import { EventType } from "../interface";
 
 const initialState: { [key: string]: Array<EventType> } = {
   "2022-03-05": [

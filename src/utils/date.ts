@@ -1,16 +1,7 @@
 import moment from "moment";
+import { hourProps, minuteProps } from "../interface";
 
 export const weekDays = ["일", "월", "화", "수", "목", "금", "토"];
-
-interface hourProps {
-  text?: string;
-  hour?: number;
-}
-interface minuteProps {
-  text?: string;
-  hour?: number;
-  minute?: number;
-}
 
 export const dayHours = () => {
   let hours: object[] = [];

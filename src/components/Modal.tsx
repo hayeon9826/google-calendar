@@ -10,11 +10,9 @@ import { addEvent } from "../store/event";
 import moment from "moment";
 import toast from "react-simple-toasts";
 import "moment/locale/ko";
+import { minuteProps } from "../interface";
+import { classNames } from "../utils/index";
 moment.locale("ko");
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
 
 const Modal = ({ isShow = false }) => {
   const colors = [
@@ -80,11 +78,7 @@ const Modal = ({ isShow = false }) => {
     dispatch(setModalState(false));
     toast("일정이 저장되었습니다.");
   };
-  interface minuteProps {
-    text?: string;
-    hour?: number;
-    minute?: number;
-  }
+
   const minutes = dayMinutes();
   moment.locale();
 
@@ -92,11 +86,11 @@ const Modal = ({ isShow = false }) => {
     <div
       className={`${
         !isShow && "hidden"
-      } overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full`}
+      } overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full h-screen`}
       id="medium-modal"
     >
       <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-48">
-        <div className="relative bg-white rounded-lg shadow-lg ">
+        <div className="relative bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="flex justify-between items-center p-2 rounded-t ">
             <button
               type="button"

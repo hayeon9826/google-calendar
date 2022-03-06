@@ -5,15 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import { setDate } from "../store/calendar";
 import { setModalState } from "../store/modal";
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-interface SideCalendarProps {
-  isMain?: boolean;
-  className?: string;
-}
+import { SideCalendarProps } from "../interface";
+import { BsPlusLg } from "react-icons/bs";
+import { classNames } from "../utils/index";
 
 const SideCalendar = ({
   isMain = false,
@@ -32,15 +26,16 @@ const SideCalendar = ({
           type="button"
           onClick={() => dispatch(setModalState(true))}
           data-modal-toggle="medium-modal"
-          className="inline-flex items-center ml-4 mt-2 px-8 py-2 border border-gray-300 shadow-lg text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+          className="inline-flex items-center ml-4 mt-2 px-3 py-2 lg:px-9 lg:py-3 md:px-9 md:py-3 border border-gray-200 shadow-lg text-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
         >
-          만들기
+          <BsPlusLg className="text-lg text-blue-600 font-bold" />
+          <span className="ml-2">만들기</span>
         </button>
       )}
 
       <div className={`md:p-4 lg:p-6 mt-2 ${className}`}>
         <div className="flex items-center">
-          <h2 className="ml-2 flex-auto font-semibold text-gray-600">
+          <h2 className="ml-2 flex-auto font-semibold text-sm text-gray-600">
             {moment(selectedDate).format("YYYY년 MM월")}
           </h2>
           <button

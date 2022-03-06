@@ -2,19 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getMonthDates, getWeekDates } from "../utils/date";
 import moment from "moment";
 import "moment/locale/ko";
+import { timeProps } from "../interface";
 moment.locale("ko");
-export interface currentDate {
-  date: string;
-  days: string[];
-  month: string;
-  weekDays: string[];
-}
-
-export interface timeProps {
-  text?: string;
-  hour?: number;
-  minute?: number;
-}
 
 const initialState = {
   date: moment().format("YYYY-MM-DD"),

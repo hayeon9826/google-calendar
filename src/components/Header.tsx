@@ -8,22 +8,12 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import { FcGoogle } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
-import { Dispatch, SetStateAction } from "react";
+import { HeaderProps } from "../interface";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { RootState } from "../store";
 import { setDate } from "../store/calendar";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-interface HeaderProps {
-  sideOpen: boolean;
-  weekView: boolean;
-  setSideOpen: Dispatch<SetStateAction<boolean>>;
-  setWeekView: Dispatch<SetStateAction<boolean>>;
-}
+import { classNames } from "../utils/index";
 
 const Header = ({
   sideOpen = true,
