@@ -191,6 +191,8 @@ const WeekCalendar = () => {
                                                   : 40
                                               }%`
                                             : "120%",
+                                          // 같은 날짜에 생성한 데이터는 겹칠 경우가 있으므로, 다르게 margin 주기
+                                          marginLeft: `${index * 5}%`,
                                         }}
                                       >
                                         <div className="inline-block align-middle font-semibold pl-2">
