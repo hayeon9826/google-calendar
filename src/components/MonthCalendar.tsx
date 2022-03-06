@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { setDate } from "../store/calendar";
+import { setDate, setStartTime, setEndTime } from "../store/calendar";
 import React from "react";
 import { weekDays } from "../utils/date";
 import moment from "moment";
@@ -17,7 +17,7 @@ const MonthCalendar = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="lg:flex lg:h-full lg:flex-col col-span-6">
+    <div className="lg:flex lg:h-full lg:flex-col col-span-5">
       <div className="shadow-lg mt-3 ring-1 ring-black ring-opacity-5 lg:flex lg:flex-auto lg:flex-col">
         <div className="grid grid-cols-7 gap-px border-b border-gray-300 bg-gray-200 text-center text-xs font-semibold leading-6 text-gray-700 lg:flex-none">
           {weekDays.map((day) => (
@@ -35,6 +35,12 @@ const MonthCalendar = () => {
                   onClick={() => {
                     dispatch(setDate(moment(day).format("YYYY-MM-DD")));
                     dispatch(setModalState(true));
+                    dispatch(setStartTime(moment().toDate().toISOString()));
+                    dispatch(
+                      setEndTime(
+                        moment().add(1, "hours").toDate().toISOString()
+                      )
+                    );
                   }}
                   className={classNames(
                     moment(day).format("MM") === month
@@ -63,7 +69,7 @@ const MonthCalendar = () => {
                               dispatch(
                                 setOpenModal({
                                   date: day,
-                                  id: `${index}`,
+                                  id: index,
                                 })
                               )
                             }
@@ -103,6 +109,10 @@ const MonthCalendar = () => {
                 onClick={() => {
                   dispatch(setDate(moment(day).format("YYYY-MM-DD")));
                   dispatch(setModalState(true));
+                  dispatch(setStartTime(moment().toDate().toISOString()));
+                  dispatch(
+                    setEndTime(moment().add(1, "hours").toDate().toISOString())
+                  );
                 }}
                 type="button"
                 className={classNames(
@@ -117,7 +127,7 @@ const MonthCalendar = () => {
                   !(day === selectedDate) &&
                     moment(day).format("MM") !== month &&
                     "text-gray-500",
-                  "flex h-30 flex-col py-2 px-3 hover:bg-gray-100 focus:z-10"
+                  "flex h-20 flex-col py-2 px-3 hover:bg-gray-100 focus:z-10"
                 )}
               >
                 <time
@@ -132,17 +142,17 @@ const MonthCalendar = () => {
                   {moment(day).format("D")}
                 </time>
                 {weekEvents[day] && (
-                  <ul className="grid mx-auto">
+                  <div className="grid grid-cols-2 mx-auto">
                     {weekEvents[day]?.map((eventMemo, index) => (
                       <React.Fragment key={`${day}-${index}`}>
-                        {/* 모바일은 최신 3개만 띄우기 */}
-                        {index < 3 && (
-                          <li
+                        {/* 모바일은 최대 4개만 띄우기 */}
+                        {index < 4 && (
+                          <div
                             onClick={() =>
                               dispatch(
                                 setOpenModal({
                                   date: day,
-                                  id: `${index}`,
+                                  id: index,
                                 })
                               )
                             }
@@ -163,11 +173,11 @@ const MonthCalendar = () => {
                                 </a>
                               </div>
                             </div>
-                          </li>
+                          </div>
                         )}
                       </React.Fragment>
                     ))}
-                  </ul>
+                  </div>
                 )}
               </button>
             ))}

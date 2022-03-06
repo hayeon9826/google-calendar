@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { setDate, setStartTime, setEndTime } from "../store/calendar";
 import { weekDays, dayHours } from "../utils/date";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
 import moment from "moment";
 import { setModalState, setOpenModal } from "../store/modal";
-import { EventType, hourProps } from "../interface";
+import { eventType, hourProps } from "../interface";
 
 const WeekCalendar = () => {
   const container = useRef<any>(null);
@@ -17,21 +17,10 @@ const WeekCalendar = () => {
   const dailyHours = dayHours();
   const weekEvents = useSelector((state: RootState) => state.event);
 
-  useEffect(() => {
-    // Set the container scroll position based on the current time.
-    const currentMinute = new Date().getHours() * 60;
-    container.current.scrollTop =
-      ((container.current.scrollHeight -
-        containerNav.current.offsetHeight -
-        containerOffset.current.offsetHeight) *
-        currentMinute) /
-      1440;
-  }, []);
-
   const dispatch = useDispatch();
 
   return (
-    <div className="flex flex-col col-span-6">
+    <div className="flex flex-col col-span-5">
       <div ref={container} className="flex flex-auto flex-col bg-white">
         <div
           style={{ width: "165%" }}
@@ -51,7 +40,7 @@ const WeekCalendar = () => {
                     }
                     key={`week-${date}`}
                     type="button"
-                    className="flex flex-col items-center pt-2 pb-3"
+                    className="flex flex-col items-center pt-2 pb-3 cursor-pointer hover:bg-gray-100 rounded-full"
                   >
                     <div className="text-xs text-gray-500">
                       {weekDays[index]}
@@ -77,7 +66,7 @@ const WeekCalendar = () => {
                     onClick={() =>
                       dispatch(setDate(moment(date).format("YYYY-MM-DD")))
                     }
-                    className="flex items-center justify-center py-3"
+                    className="flex items-center justify-center py-3 "
                     key={`week-${index}`}
                   >
                     <span>
@@ -88,7 +77,7 @@ const WeekCalendar = () => {
                         className={
                           selectedDate === date
                             ? "flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 font-semibold text-white text-xl"
-                            : "items-center justify-center font-semibold text-gray-500 text-xl"
+                            : "flex items-center justify-center font-semibold text-gray-500 text-xl cursor-pointer hover:bg-gray-100 rounded-full h-12 w-12 "
                         }
                       >
                         {moment(date).format("DD")}
@@ -112,14 +101,13 @@ const WeekCalendar = () => {
                 {dailyHours &&
                   dailyHours.map((hour: hourProps) => (
                     <div key={hour.text}>
-                      <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-xs leading-5 text-gray-500 h-14">
+                      <div className="sticky left-0 z-20 -mt-2.5 -ml-14 w-14 pr-2 text-right text-[10px] leading-5 text-gray-500 h-14">
                         {hour.text + "시"}
                       </div>
                     </div>
                   ))}
               </div>
 
-              {/* Vertical lines */}
               <div className="col-start-1 col-end-2 row-start-1 grid grid-cols-7 grid-rows-1">
                 {weekDates &&
                   weekDates.map((week) => (
@@ -161,11 +149,12 @@ const WeekCalendar = () => {
                               }}
                               className={`col-start-${
                                 index + 1
-                              } h-14 text-center text-xs text-gray-500 border-gray-200 border-l border-t relative`}
+                              } h-14 text-xs text-gray-500 border-gray-200 border-l border-t relative cursor-pointer hover:bg-gray-50`}
                             >
+                              {/* 등록한 일정 보이기 */}
                               {weekEvents[week] &&
                                 weekEvents[week]?.map(
-                                  (eventMemo: EventType, index: number) =>
+                                  (eventMemo: eventType, index: number) =>
                                     dailyHour.hour ===
                                     eventMemo.startAt?.hour ? (
                                       <div
@@ -174,16 +163,25 @@ const WeekCalendar = () => {
                                           dispatch(
                                             setOpenModal({
                                               date: week,
-                                              id: `${index}`,
+                                              id: index,
                                             })
                                           )
                                         }
                                         className={`${
                                           eventMemo?.color
                                             ? `bg-${eventMemo?.color}-300 hover:bg-${eventMemo?.color}-400`
-                                            : "bg-blue-300 hover:bg-blue-400 "
-                                        } z-20 group absolute inset-1 flex flex-col overflow-y-auto rounded-lg  p-2 text-xs leading-5  text-white`}
+                                            : "bg-blue-300 hover:bg-blue-400"
+                                        } z-20 group absolute inset-1 flex flex-col overflow-y-auto rounded-md text-xs leading-5  text-white`}
                                         style={{
+                                          // 시작 시간 위치 잡기
+                                          top: eventMemo?.startAt?.minute
+                                            ? `${
+                                                (eventMemo?.startAt?.minute /
+                                                  60) *
+                                                100
+                                              }%`
+                                            : "0%",
+                                          // 끝나는 시간 위치 잡기
                                           height: eventMemo?.height
                                             ? `${
                                                 (eventMemo?.height / 60) * 100 >
@@ -193,13 +191,12 @@ const WeekCalendar = () => {
                                                   : 40
                                               }%`
                                             : "120%",
-                                          // left: `${index * 8}px`,
                                         }}
                                       >
-                                        <div className="inline-block align-middle font-semibold">
+                                        <div className="inline-block align-middle font-semibold pl-2">
                                           {eventMemo.title}
                                         </div>
-                                        <div className="inline-block align-middle font-semibold">
+                                        <div className="inline-block align-middle font-semibold pl-2">
                                           {eventMemo?.startAt?.text} ~{" "}
                                           {eventMemo?.endAt?.text}
                                         </div>

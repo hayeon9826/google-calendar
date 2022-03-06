@@ -3,6 +3,7 @@ module.exports = {
   content: [],
   theme: {
     extend: {},
+
     minWidth: {
       20: "20px",
     },

@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import { EventType } from "../interface";
+import { eventType, removeModalProps } from "../interface";
 
-const initialState: { [key: string]: Array<EventType> } = {
+const initialState: { [key: string]: Array<eventType> } = {
   "2022-03-05": [
     {
       title: "메모 입력해주세요.",
@@ -30,8 +30,9 @@ export const eventSlice = createSlice({
         action.payload.data,
       ];
     },
-    removeEvent: (state, action) => {
-      state[action.payload.date].splice(parseInt(action.payload.id), 1);
+    removeEvent: (state, action: PayloadAction<removeModalProps>) => {
+      // 배열에서 해당 index값 제거
+      state[action.payload.date].splice(action.payload.id, 1);
     },
   },
 });

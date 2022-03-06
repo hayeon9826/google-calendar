@@ -8,7 +8,7 @@ import {
 import { Menu, Transition } from "@headlessui/react";
 import { FcGoogle } from "react-icons/fc";
 import { HiMenu } from "react-icons/hi";
-import { HeaderProps } from "../interface";
+import { headerProps } from "../interface";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { RootState } from "../store";
@@ -20,7 +20,7 @@ const Header = ({
   setSideOpen,
   weekView = true,
   setWeekView,
-}: HeaderProps) => {
+}: headerProps) => {
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const dispatch = useDispatch();
   return (
@@ -39,7 +39,7 @@ const Header = ({
             dispatch(setDate(moment(new Date()).format("YYYY-MM-DD")))
           }
           type="button"
-          className="hidden md:block lg:block ml-16 items-center px-4 py-2 border border-gray-300 shadow-lg text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none "
+          className="hidden md:block lg:block ml-16 items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none "
         >
           오늘
         </button>
@@ -49,7 +49,7 @@ const Header = ({
         >
           <span className="sr-only">Previous month</span>
           <ChevronLeftIcon
-            className="h-5 w-5"
+            className="h-5 w-5 text-gray-600 cursor-pointer hover:bg-gray-100 rounded-full"
             aria-hidden="true"
             onClick={() =>
               dispatch(
@@ -72,7 +72,7 @@ const Header = ({
         >
           <span className="sr-only">Next month</span>
           <ChevronRightIcon
-            className="h-5 w-5"
+            className="h-5 w-5 text-gray-600 cursor-pointer hover:bg-gray-100 rounded-full"
             aria-hidden="true"
             onClick={() =>
               dispatch(
@@ -85,7 +85,7 @@ const Header = ({
             }
           />
         </button>
-        <h2 className="ml-6 flex-auto text-lg font-semibold text-gray-600">
+        <h2 className="ml-6 flex-auto text-xl font-semibold text-gray-600">
           {moment(selectedDate).format("YYYY년 MM월")}
         </h2>
       </div>
@@ -94,7 +94,7 @@ const Header = ({
           <Menu as="div" className="relative">
             <Menu.Button
               type="button"
-              className="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+              className="flex items-center rounded-md border border-gray-300 bg-white py-2 pl-3 pr-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               {weekView ? "주" : "월"}
               <ChevronDownIcon

@@ -10,11 +10,11 @@ import { addEvent } from "../store/event";
 import moment from "moment";
 import toast from "react-simple-toasts";
 import "moment/locale/ko";
-import { minuteProps } from "../interface";
+import { minuteProps, modalProps } from "../interface";
 import { classNames } from "../utils/index";
 moment.locale("ko");
 
-const Modal = ({ isShow = false }) => {
+const Modal = ({ isShow = false }: modalProps) => {
   const colors = [
     { name: "blue", bgColor: "bg-blue-300", selectedColor: "ring-blue-300" },
     { name: "red", bgColor: "bg-red-300", selectedColor: "ring-red-300" },
@@ -32,7 +32,7 @@ const Modal = ({ isShow = false }) => {
     },
   ];
   const [showDate, setShowDate] = useState(false);
-  const [selectedColor, setSelectedColor] = useState(colors[1]);
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
   const [title, setTitle] = useState("");
@@ -73,8 +73,8 @@ const Modal = ({ isShow = false }) => {
     };
     await dispatch(addEvent(event));
     setTitle("");
-    dispatch(setStartTime({ hour: null, minute: null, text: null }));
-    dispatch(setEndTime({ hour: null, minute: null, text: null }));
+    dispatch(setStartTime(null));
+    dispatch(setEndTime(null));
     dispatch(setModalState(false));
     toast("일정이 저장되었습니다.");
   };
@@ -89,7 +89,7 @@ const Modal = ({ isShow = false }) => {
       } overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full h-screen`}
       id="medium-modal"
     >
-      <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-48">
+      <div className="relative px-4 w-full max-w-lg md:h-auto mx-auto mt-48">
         <div className="relative bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="flex justify-between items-center p-2 rounded-t ">
             <button
@@ -99,7 +99,7 @@ const Modal = ({ isShow = false }) => {
                 setShowDate(false);
                 setShowEndTime(false);
                 setShowStartTime(false);
-                setSelectedColor(colors[1]);
+                setSelectedColor(colors[0]);
                 setTitle("");
               }}
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
@@ -129,12 +129,12 @@ const Modal = ({ isShow = false }) => {
                   onChange={(e) => setTitle(e.target.value)}
                   onClick={() => setShowDate(false)}
                   id="name"
-                  className="block w-full border-0 border-transparent text-2xl  border-blue-600 focus:outline-none focus:border-b-2"
+                  className="block w-full border-0 border-transparent text-2xl  border-blue-600 focus:outline-none focus:border-b-2 focus:animate-pulse"
                   placeholder="제목 추가"
                 />
               </div>
             </div>
-            <div className="grid grid-cols-10 mt-4">
+            <div className="grid grid-cols-11 mt-4">
               <input
                 type="text"
                 name="date"
@@ -144,7 +144,7 @@ const Modal = ({ isShow = false }) => {
                   setShowEndTime(false);
                 }}
                 id="date"
-                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 z-60 col-span-3"
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm   border-blue-600 focus:outline-none focus:border-b-2 z-60 col-span-4 focus:animate-pulse"
                 placeholder={
                   moment(selectedDate).format("M월 DD일") +
                   ` (${weekDays[moment(selectedDate).day()]}요일)`
@@ -159,7 +159,7 @@ const Modal = ({ isShow = false }) => {
                   setShowStartTime(!showStartTime);
                   setShowEndTime(false);
                 }}
-                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3"
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3 focus:animate-pulse"
                 placeholder={selectedStartTime.text}
               />
               <div className="text-center">-</div>
@@ -172,7 +172,7 @@ const Modal = ({ isShow = false }) => {
                   setShowEndTime(!showEndTime);
                   setShowStartTime(false);
                 }}
-                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3"
+                className="placeholder-gray-600 block w-full border-0 border-transparent text-sm  border-blue-600 focus:outline-none focus:border-b-2 col-span-3 focus:animate-pulse"
                 placeholder={selectedEndTime.text}
               />
             </div>
@@ -293,7 +293,7 @@ const Modal = ({ isShow = false }) => {
               </RadioGroup>
             </div>
 
-            <div className="flex items-center p-6 space-x-2 rounded-b flex-row-reverse">
+            <div className="flex items-center py-6 space-x-2 rounded-b flex-row-reverse">
               <button
                 data-modal-toggle="medium-modal"
                 type="submit"
@@ -310,7 +310,7 @@ const Modal = ({ isShow = false }) => {
                   setShowEndTime(false);
                   setShowStartTime(false);
                   setTitle("");
-                  setSelectedColor(colors[1]);
+                  setSelectedColor(colors[0]);
                 }}
                 className="text-gray-700 bg-white hover:bg-gray-100 rounded-md text-sm font-medium px-5 py-2.5   "
               >

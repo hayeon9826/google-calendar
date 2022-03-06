@@ -3,16 +3,16 @@ import moment from "moment";
 import { weekDays } from "../utils/date";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
-import { setDate } from "../store/calendar";
+import { setDate, setStartTime, setEndTime } from "../store/calendar";
 import { setModalState } from "../store/modal";
-import { SideCalendarProps } from "../interface";
+import { sideCalendarProps } from "../interface";
 import { BsPlusLg } from "react-icons/bs";
 import { classNames } from "../utils/index";
 
 const SideCalendar = ({
   isMain = false,
   className = "",
-}: SideCalendarProps) => {
+}: sideCalendarProps) => {
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const days = useSelector((state: RootState) => state.calendar.days);
   const month = useSelector((state: RootState) => state.calendar.month);
@@ -24,12 +24,18 @@ const SideCalendar = ({
       {isMain && (
         <button
           type="button"
-          onClick={() => dispatch(setModalState(true))}
+          onClick={() => {
+            dispatch(setModalState(true));
+            dispatch(setStartTime(moment().toDate().toISOString()));
+            dispatch(
+              setEndTime(moment().add(1, "hours").toDate().toISOString())
+            );
+          }}
           data-modal-toggle="medium-modal"
           className="inline-flex items-center ml-4 mt-2 px-3 py-2 lg:px-9 lg:py-3 md:px-9 md:py-3 border border-gray-200 shadow-lg text-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
         >
           <BsPlusLg className="text-lg text-blue-600 font-bold" />
-          <span className="ml-2">만들기</span>
+          <span className="ml-2 text-sm">만들기</span>
         </button>
       )}
 
@@ -50,7 +56,10 @@ const SideCalendar = ({
             className="-my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           >
             <span className="sr-only">Previous month</span>
-            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            <ChevronLeftIcon
+              className="h-5 w-5 text-gray-600 hover:bg-gray-100 rounded-full"
+              aria-hidden="true"
+            />
           </button>
           <button
             type="button"
@@ -61,18 +70,21 @@ const SideCalendar = ({
                 )
               )
             }
-            className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
+            className="-my-1.5 -mr-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
           >
             <span className="sr-only">Next month</span>
-            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            <ChevronRightIcon
+              className="h-5 w-5 text-gray-600 hover:bg-gray-100 rounded-full"
+              aria-hidden="true"
+            />
           </button>
         </div>
-        <div className="mt-6 grid grid-cols-7 text-center text-xs leading-6 text-gray-500">
+        <div className="mt-4 grid grid-cols-7 text-center text-xs leading-6 text-gray-500">
           {weekDays.map((day) => (
             <div key={day}>{day}</div>
           ))}
         </div>
-        <div className="mt-2 grid grid-cols-7 text-xs">
+        <div className="mt-1 grid grid-cols-7">
           {days &&
             days.map((day, index) => (
               <div key={index} className={classNames("py-2")}>
@@ -84,9 +96,9 @@ const SideCalendar = ({
                   className={classNames(
                     "text-gray-600",
                     selectedDate === day && "bg-blue-200 text-blue-600",
-                    "text-xs",
+                    "text-[10px]",
                     "hover:bg-gray-200",
-                    "mx-auto flex h-6 w-6 items-center justify-center rounded-full"
+                    "mx-auto flex h-4 w-4 items-center justify-center rounded-full"
                   )}
                 >
                   {moment(day).format("MM") !== month ? (

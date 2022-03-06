@@ -12,7 +12,7 @@ import { showModalProps } from "../interface";
 import "moment/locale/ko";
 moment.locale("ko");
 
-const ShowModal = ({ date = "", id = "" }: showModalProps) => {
+const ShowModal = ({ date = "", id = null }: showModalProps) => {
   const dispatch = useDispatch();
   const weekEvents = useSelector((state: RootState) => state.event);
 
@@ -20,19 +20,19 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
 
   return (
     <>
-      {date && id && weekEvents[date][parseInt(id)] && (
+      {date && id !== null && weekEvents[date][id] && (
         <div
           className={`overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full h-screen`}
           id="medium-modal"
         >
-          <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-48">
+          <div className="relative px-4 w-full max-w-lg h-full md:h-auto mx-auto mt-64">
             <div className="relative bg-white rounded-lg shadow-lg  border border-gray-200">
-              <div className="grid grid-cols-10  p-2 rounded-t ">
+              <div className="grid grid-cols-10 p-2 rounded-t ">
                 <button
                   type="button"
                   onClick={() => {
                     dispatch(removeEvent({ date: date, id: id }));
-                    dispatch(setOpenModal({ date: "", id: "" }));
+                    dispatch(setOpenModal({ date: "", id: null }));
                     dispatch(setModalState(false));
                     toast("일정이 삭제되었습니다.");
                   }}
@@ -44,7 +44,7 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
                 <button
                   type="button"
                   onClick={() => {
-                    dispatch(setOpenModal({ date: "", id: "" }));
+                    dispatch(setOpenModal({ date: "", id: null }));
                     dispatch(setModalState(false));
                   }}
                   className="col-start-10  text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center "
@@ -64,27 +64,25 @@ const ShowModal = ({ date = "", id = "" }: showModalProps) => {
                   </svg>
                 </button>
               </div>
-              <div className="p-6">
+              <div className="px-6 pb-6">
                 <div className="grid grid-cols-10">
-                  <div className="col-span-1 text-center">
+                  <div className="col-span-1 text-center mt-2 ml-2">
                     <MdOutlineCheckBoxOutlineBlank
                       style={{
-                        color:
-                          `${weekEvents[date][parseInt(id)]?.color}` || "blue",
-                        background:
-                          `${weekEvents[date][parseInt(id)]?.color}` || "blue",
+                        color: `${weekEvents[date][id]?.color}` || "blue",
+                        background: `${weekEvents[date][id]?.color}` || "blue",
                       }}
                     />
                   </div>
 
                   <h3 className="col-span-9 font-semibold text-xl">
-                    {weekEvents[date][parseInt(id)]?.title}
+                    {weekEvents[date][id]?.title}
                   </h3>
                   <div className="col-start-2 col-span-9 text-gray-600 text-sm mt-2">
                     {moment(date).format("M월 DD일")} (
                     {weekDays[moment(date).days()] + "요일"}){" ⋅ "}
-                    {weekEvents[date][parseInt(id)]?.startAt?.text} ~{" "}
-                    {weekEvents[date][parseInt(id)]?.endAt?.text}
+                    {weekEvents[date][id]?.startAt?.text} ~{" "}
+                    {weekEvents[date][id]?.endAt?.text}
                   </div>
                 </div>
               </div>

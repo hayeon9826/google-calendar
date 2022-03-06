@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { modalType, showModalProps } from "../interface";
 
-const initialState = {
+const initialState: modalType = {
   showModal: false,
   date: "",
   id: null,
@@ -10,11 +11,12 @@ export const modalSlice = createSlice({
   name: "calendar",
   initialState,
   reducers: {
-    setModalState: (state, action) => {
+    // 빈 모달 생성
+    setModalState: (state, action: PayloadAction<boolean>) => {
       state.showModal = action.payload;
     },
-
-    setOpenModal: (state, action) => {
+    // 상세 페이지 모달 정보 저장
+    setOpenModal: (state, action: PayloadAction<showModalProps>) => {
       state.date = action.payload.date;
       state.id = action.payload.id;
     },
