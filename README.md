@@ -76,13 +76,13 @@
 
 <table>
   <tr>
-    <td> <img src="https://user-images.githubusercontent.com/72732446/157030615-01949570-b444-40a5-9e74-9cb7f0c8b0b0.png"  alt="week mobile blank" width = 360px height = 640px ></td>
-    <td><img src="https://user-images.githubusercontent.com/72732446/157030656-908592b8-16d3-48c6-b356-fab70bb0c6c8.png" alt="week mobile new modal" width = 360px height = 640px></td>
-    <td><img src="https://user-images.githubusercontent.com/72732446/157030685-1823a430-41dc-4e6c-80cc-dc0eba0d6f32.png" alt="week mobile show" width = 360px height = 640px></td>
+    <td> <img src="https://user-images.githubusercontent.com/72732446/157030615-01949570-b444-40a5-9e74-9cb7f0c8b0b0.png"  alt="week mobile blank" ></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030656-908592b8-16d3-48c6-b356-fab70bb0c6c8.png" alt="week mobile new modal"></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030685-1823a430-41dc-4e6c-80cc-dc0eba0d6f32.png" alt="week mobile show"></td>
   </tr> 
    <tr>
-    <td><img src="https://user-images.githubusercontent.com/72732446/157030739-686c54e1-70f1-4e1c-95c3-db5d5852a51c.png" alt="week mobile no header" width = 360px height = 640px></td>
-    <td><img src="https://user-images.githubusercontent.com/72732446/157030829-2e655f9e-28d2-4315-8e66-35e14fceef48.png"  alt="calendar mobile" width = 360px height = 640px></td>
-    <td><img src="https://user-images.githubusercontent.com/72732446/157030972-89999ae0-55d9-4736-99ef-aae3877a3758.png"  alt="calendar mobile modal" width = 360px height = 640px></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030739-686c54e1-70f1-4e1c-95c3-db5d5852a51c.png" alt="week mobile no header"></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030829-2e655f9e-28d2-4315-8e66-35e14fceef48.png"  alt="calendar mobile"></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030972-89999ae0-55d9-4736-99ef-aae3877a3758.png"  alt="calendar mobile modal"></td>
   </tr>
 </table>
