@@ -58,14 +58,31 @@
 
 ### 사진 첨부
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892524-78d4a595-6f80-45fc-8586-2feb3976887c.png)
+#### PC 버전
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892546-36c96ef2-8fec-43b2-8852-a51c1872f8df.png)
+![google calendar clone - week](https://user-images.githubusercontent.com/72732446/156892524-78d4a595-6f80-45fc-8586-2feb3976887c.png)
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892556-29b432e3-ce45-4279-818c-83a201a91a3c.png)
+![google calendar clone - month](https://user-images.githubusercontent.com/72732446/156892546-36c96ef2-8fec-43b2-8852-a51c1872f8df.png)
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892570-347cb4be-9ec2-498a-bea5-8ddc0f31b6e8.png)
+![google calendar clone - month with modal](https://user-images.githubusercontent.com/72732446/156892556-29b432e3-ce45-4279-818c-83a201a91a3c.png)
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892585-11a5c341-3bda-420b-971d-2a2218dc31e9.png)
+![google calendar clone - month with modal new](https://user-images.githubusercontent.com/72732446/156892570-347cb4be-9ec2-498a-bea5-8ddc0f31b6e8.png)
 
-![google calendar clone](https://user-images.githubusercontent.com/72732446/156892596-af30011e-b15d-4b92-bae5-f3216daedf72.png)
+![google calendar clone - month delete](https://user-images.githubusercontent.com/72732446/156892585-11a5c341-3bda-420b-971d-2a2218dc31e9.png)
+
+![google calendar clone -month create](https://user-images.githubusercontent.com/72732446/156892596-af30011e-b15d-4b92-bae5-f3216daedf72.png)
+
+#### 모바일 버전
+
+<table>
+  <tr>
+    <td> <img src="https://user-images.githubusercontent.com/72732446/157030615-01949570-b444-40a5-9e74-9cb7f0c8b0b0.png"  alt="week mobile blank" width = 360px height = 640px ></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030656-908592b8-16d3-48c6-b356-fab70bb0c6c8.png" alt="week mobile new modal" width = 360px height = 640px></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030685-1823a430-41dc-4e6c-80cc-dc0eba0d6f32.png" alt="week mobile show" width = 360px height = 640px></td>
+  </tr> 
+   <tr>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030739-686c54e1-70f1-4e1c-95c3-db5d5852a51c.png" alt="week mobile no header" width = 360px height = 640px></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030829-2e655f9e-28d2-4315-8e66-35e14fceef48.png"  alt="calendar mobile" width = 360px height = 640px></td>
+    <td><img src="https://user-images.githubusercontent.com/72732446/157030972-89999ae0-55d9-4736-99ef-aae3877a3758.png"  alt="calendar mobile modal" width = 360px height = 640px></td>
+  </tr>
+</table>
