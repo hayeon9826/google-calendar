@@ -7,17 +7,21 @@ moment.locale("ko");
 
 const initialState: calendarType = {
   date: moment().format("YYYY-MM-DD"),
+  // 해당 월 날짜 세팅
   days: getMonthDates(
     moment(moment().format("YYYY-MM-DD")).startOf("month").format("YYYY-MM-DD"),
     moment(moment().format("YYYY-MM-DD")).endOf("month").format("YYYY-MM-DD")
   ),
   month: moment().format("MM"),
+  // 해당 주 날짜 세팅
   weekDates: getWeekDates(moment().format("YYYY-MM-DD")),
+  // (모달 생성 or 이벤트 상세 선택 시) 선택한 시작 시간
   startTime: {
     text: moment().format("LT"),
     hour: moment().hour(),
     minute: moment().minute(),
   },
+  // (모달 생성시) 선택한 종료 시간
   endTime: {
     text: moment().add(1, "hour").format("LT"),
     hour: moment().add(1, "hour").hour(),

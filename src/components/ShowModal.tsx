@@ -20,6 +20,7 @@ const ShowModal = ({ date = "", id = null }: showModalProps) => {
 
   return (
     <>
+      {/* 선택된 날짜와 event의 id가 있어야 보여줌 */}
       {date && id !== null && weekEvents[date][id] && (
         <div
           className={`overflow-y-auto overflow-x-hidden fixed right-0 left-0 top-0 z-50 justify-center items-center md:inset-0 h-modal sm:h-full h-screen`}

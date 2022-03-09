@@ -30,8 +30,10 @@ const WeekCalendar = () => {
             ref={containerNav}
             className=" top-0 z-10 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 "
           >
+            {/* 모바일 버전 */}
             <div className="grid grid-cols-7 text-sm leading-6 text-gray-500 sm:hidden">
               <div className="col-end-1 w-14 " />
+              {/* date.ts에서 이번주 날짜 가져옴 */}
               {weekDates &&
                 weekDates.map((date, index) => (
                   <button
@@ -57,9 +59,10 @@ const WeekCalendar = () => {
                   </button>
                 ))}
             </div>
-
+            {/* pc 버전 */}
             <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
               <div className="col-end-1 w-14" />
+              {/* date.ts에서 이번주 날짜 가져옴 */}
               {weekDates &&
                 weekDates.map((date, index) => (
                   <div
@@ -98,6 +101,7 @@ const WeekCalendar = () => {
                 }}
               >
                 <div ref={containerOffset} className="row-end-1 h-7"></div>
+                {/* date.js에서 하루 24시간 가져옴 */}
                 {dailyHours &&
                   dailyHours.map((hour: hourProps) => (
                     <div key={hour.text}>
@@ -109,9 +113,11 @@ const WeekCalendar = () => {
               </div>
 
               <div className="col-start-1 col-end-2 row-start-1 grid grid-cols-7 grid-rows-1">
+                {/* row는 이번주 날짜, col은 24시간으로 7*24 그리드 생성 */}
                 {weekDates &&
                   weekDates.map((week) => (
                     <div key={week}>
+                      {/* date.ts에서 24 시간 가져옴 */}
                       {dailyHours &&
                         dailyHours.map(
                           (dailyHour: hourProps, index: number) => (

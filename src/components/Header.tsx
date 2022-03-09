@@ -21,8 +21,10 @@ const Header = ({
   weekView = true,
   setWeekView,
 }: headerProps) => {
+  // 현재 선택한 날짜 store에서 가져오기
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const dispatch = useDispatch();
+
   return (
     <header className="relative z-20 flex flex-none items-center justify-between border-b border-gray-200 py-4 px-6">
       <div className="flex items-center">
@@ -34,15 +36,15 @@ const Header = ({
         <div className="hidden md:block lg:block text-xl font-normal text-gray-600 ml-2">
           캘린더
         </div>
+        {/* '오늘' 버튼 클릭 시 오늘 날짜로 store 상태 변경 */}
         <button
-          onClick={() =>
-            dispatch(setDate(moment(new Date()).format("YYYY-MM-DD")))
-          }
+          onClick={() => dispatch(setDate(moment().format("YYYY-MM-DD")))}
           type="button"
           className="hidden md:block lg:block ml-16 items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none "
         >
           오늘
         </button>
+        {/* 이전 주/월 버튼 */}
         <button
           type="button"
           className="ml-4 -my-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
@@ -66,6 +68,7 @@ const Header = ({
             }
           />
         </button>
+        {/* 다음 주/월 버튼 */}
         <button
           type="button"
           className="-my-1.5 -mr-1.5 ml-2 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500"
@@ -89,7 +92,9 @@ const Header = ({
           {moment(selectedDate).format("YYYY년 MM월")}
         </h2>
       </div>
+      {/* 상단 메뉴 */}
       <div className="flex items-center">
+        {/* pc 버전 상단 메뉴 */}
         <div className="hidden md:ml-4 md:flex md:items-center">
           <Menu as="div" className="relative">
             <Menu.Button
@@ -152,6 +157,7 @@ const Header = ({
           </Menu>
           <div className="ml-6 h-6 w-px bg-gray-300" />
         </div>
+        {/* 모바일 버전 상단 메뉴 */}
         <Menu as="div" className="relative ml-6 md:hidden">
           <Menu.Button className="-mx-2 flex items-center rounded-full border border-transparent p-2 text-gray-400 hover:text-gray-500">
             <span className="sr-only">Open menu</span>
@@ -174,9 +180,7 @@ const Header = ({
                     <a
                       href="#!"
                       onClick={() =>
-                        dispatch(
-                          setDate(moment(new Date()).format("YYYY-MM-DD"))
-                        )
+                        dispatch(setDate(moment().format("YYYY-MM-DD")))
                       }
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",

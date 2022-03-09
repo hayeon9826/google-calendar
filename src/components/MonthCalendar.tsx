@@ -26,6 +26,7 @@ const MonthCalendar = () => {
             </div>
           ))}
         </div>
+        {/* web 페이지 */}
         <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto lg:h-screen md:h-screen overflow-scroll">
           <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
             {days &&
@@ -102,6 +103,7 @@ const MonthCalendar = () => {
                 </div>
               ))}
           </div>
+          {/* mobile 페이지 */}
           <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
             {days.map((day) => (
               <button

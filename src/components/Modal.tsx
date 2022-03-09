@@ -15,6 +15,7 @@ import { classNames } from "../utils/index";
 moment.locale("ko");
 
 const Modal = ({ isShow = false }: modalProps) => {
+  // color palette
   const colors = [
     { name: "blue", bgColor: "bg-blue-300", selectedColor: "ring-blue-300" },
     { name: "red", bgColor: "bg-red-300", selectedColor: "ring-red-300" },
@@ -31,12 +32,15 @@ const Modal = ({ isShow = false }: modalProps) => {
       selectedColor: "ring-yellow-300",
     },
   ];
+
+  // 모달 내부 속성 (날짜, 시간, 제목) state
   const [showDate, setShowDate] = useState(false);
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [showStartTime, setShowStartTime] = useState(false);
   const [showEndTime, setShowEndTime] = useState(false);
   const [title, setTitle] = useState("");
   const dispatch = useDispatch();
+
   const selectedDate = useSelector((state: RootState) => state.calendar.date);
   const selectedStartTime = useSelector(
     (state: RootState) => state.calendar.startTime
@@ -45,6 +49,7 @@ const Modal = ({ isShow = false }: modalProps) => {
     (state: RootState) => state.calendar.endTime
   );
 
+  // 모달 생성 시 submit handler
   const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const event = {
@@ -79,6 +84,7 @@ const Modal = ({ isShow = false }: modalProps) => {
     toast("일정이 저장되었습니다.");
   };
 
+  // utils/date.ts에 정의해둔 하루 시간 가져오기 (15분 간격)
   const minutes = dayMinutes();
   moment.locale();
 

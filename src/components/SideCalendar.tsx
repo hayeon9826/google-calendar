@@ -21,6 +21,7 @@ const SideCalendar = ({
 
   return (
     <>
+      {/*  GoogleCalendar 컴포넌트의 메인 페이지에서만 보이는 부분. modal의 캘린더 picker일때는 보이지 않음 */}
       {isMain && (
         <button
           type="button"
@@ -38,12 +39,13 @@ const SideCalendar = ({
           <span className="ml-2 text-sm">만들기</span>
         </button>
       )}
-
+      {/* 캘린더 상단 */}
       <div className={`md:p-4 lg:p-6 mt-2 ${className}`}>
         <div className="flex items-center">
           <h2 className="ml-2 flex-auto font-semibold text-sm text-gray-600">
             {moment(selectedDate).format("YYYY년 MM월")}
           </h2>
+          {/* 캘린더 이전달 가져오기 */}
           <button
             type="button"
             onClick={() =>
@@ -61,6 +63,7 @@ const SideCalendar = ({
               aria-hidden="true"
             />
           </button>
+          {/* 캘린더 다음달 가져오기 */}
           <button
             type="button"
             onClick={() =>
@@ -79,11 +82,13 @@ const SideCalendar = ({
             />
           </button>
         </div>
+        {/* 캘린더 요일 부분 */}
         <div className="mt-4 grid grid-cols-7 text-center text-xs leading-6 text-gray-500">
           {weekDays.map((day) => (
             <div key={day}>{day}</div>
           ))}
         </div>
+        {/* 캘린더 날짜 부분 */}
         <div className="mt-1 grid grid-cols-7">
           {days &&
             days.map((day, index) => (
